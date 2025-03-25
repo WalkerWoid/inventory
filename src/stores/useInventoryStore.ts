@@ -17,11 +17,11 @@ interface InventoryStoreInterface {
     inventoryItems: Ref<InventoryItemInterface[]>
     itemSubWindowVisibility: Ref<boolean>
     emptyItem: Ref<InventoryItemInterface>
-    fillInventory(items: InventoryItemInterface[]): void
+    fillInventory(): void
 }
 
-export const isInventoryItem = (item: InventoryItemInterface): item is InventoryItemInterface => {
-    return item.count !== -1
+export const isInventoryItem = (item: InventoryItemInterface | undefined): item is InventoryItemInterface => {
+    return typeof item === 'object' && item.count !== -1
 }
 
 export const useInventoryStore = defineStore('inventory', () => {

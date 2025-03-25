@@ -13,9 +13,11 @@ const definedProps = defineProps<{
   activeItem: InventoryItemInterface | undefined
 }>()
 const countVisibility = ref<boolean>(false)
-const inputCount = ref<number>()
+const inputCount = ref<number>(0)
 
 const deleteItem = () => {
+  if (!isInventoryItem(definedProps.activeItem)) return
+
   if (definedProps.activeItem.count - inputCount.value > 0)
     definedProps.activeItem.count -= inputCount.value
   else if (definedProps.activeItem.count - inputCount.value <= 0){

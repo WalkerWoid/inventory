@@ -23,10 +23,10 @@ const setActiveItem = (newItem: InventoryItemInterface) => {
   itemSubWindowVisibility.value = true
   activeItem.value = newItem
 }
-const dragItem = (item) => {
+const dragItem = (item: InventoryItemInterface) => {
   draggableItem.value = item
 }
-const dropItem = (event) => {
+const dropItem = (event: any) => {
   if (!isInventoryItem(draggableItem.value)) return
 
   const newItemId = +event.target.dataset.id
