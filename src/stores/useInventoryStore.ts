@@ -11,7 +11,7 @@ export interface InventoryItemInterface {
 }
 export type InventoryItemsTypes = InventoryItemInterface
 
-interface InventoryStoreInterface {
+export interface InventoryStoreInterface {
     inventorySize: Ref<number>
     inventory: Ref<InventoryItemsTypes[]>
     inventoryItems: Ref<InventoryItemInterface[]>

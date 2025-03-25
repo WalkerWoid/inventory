@@ -4,6 +4,8 @@ import {storeToRefs} from "pinia";
 import {onMounted, ref, toRaw} from "vue";
 
 import {isInventoryItem} from "@/stores/useInventoryStore.ts";
+import {useSaveStore} from "@/composables/useSaveStore.ts";
+import {useGetStore} from "@/composables/useGetStore.ts";
 import type {InventoryItemInterface} from "@/stores/useInventoryStore.ts";
 
 import InventoryItem from "@/components/InventoryItem.vue";
@@ -15,8 +17,13 @@ const {inventory, itemSubWindowVisibility, emptyItem} = storeToRefs(inventorySto
 const activeItem = ref<InventoryItemInterface | undefined>(undefined)
 const draggableItem = ref<InventoryItemInterface | undefined>(undefined)
 
+
 onMounted(() => {
-  inventoryStore.fillInventory()
+  useGetStore(inventoryStore)
+})
+
+inventoryStore.$subscribe((mutation, state) => {
+  useSaveStore(inventoryStore)
 })
 
 const setActiveItem = (newItem: InventoryItemInterface) => {
@@ -26,10 +33,16 @@ const setActiveItem = (newItem: InventoryItemInterface) => {
 const dragItem = (item: InventoryItemInterface) => {
   draggableItem.value = item
 }
-const dropItem = (event: any) => {
-  if (!isInventoryItem(draggableItem.value)) return
+const dropItem = (event: DragEvent) => {
+  const target = event.target as HTMLElement
 
-  const newItemId = +event.target.dataset.id
+  if (!isInventoryItem(draggableItem.value)) return
+  if (!target.dataset.id) return
+
+  const newItemId = +target.dataset.id
+
+  if (isInventoryItem(inventory.value.find(item => item.id === newItemId))) return;
+
   emptyItem.value.id = draggableItem.value.id
   draggableItem.value.id = newItemId
   draggableItem.value.position = +newItemId+1
@@ -38,6 +51,10 @@ const dropItem = (event: any) => {
   inventory.value.splice(emptyItem.value.id, 1, structuredClone(toRaw(emptyItem.value)))
 
   draggableItem.value = undefined
+}
+
+const clearStore = () => {
+  localStorage.removeItem('inventory')
 }
 </script>
 
@@ -94,6 +111,9 @@ const dropItem = (event: any) => {
         <div class="text pulse">
           <h3>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam amet cum esse magni minima non provident quae, recusandae sed temporibus.</h3>
         </div>
+
+        <button type="button" class="button button--small button--white clear-store"
+                @click="clearStore">Сбросить стор</button>
       </div>
     </div>
   </main>
@@ -167,5 +187,8 @@ main {
   &__item:nth-last-child(-n+5) {
     border-bottom: none;
   }
+}
+.clear-store {
+  margin-top: 10px;
 }
 </style>
