@@ -88,7 +88,7 @@ const dropItem = (event: any) => {
 
       <div class="block block--bottom">
         <span class="close">
-          <img :src="`./src/assets/images/cross.svg`" alt="cross-icon">
+          <img src="@/assets/images/cross.svg" alt="cross-icon">
         </span>
 
         <div class="text pulse">

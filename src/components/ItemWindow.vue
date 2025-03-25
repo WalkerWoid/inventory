@@ -35,7 +35,7 @@ const deleteItem = () => {
   <Transition name="itemWindow">
     <aside class="block block--aside aside" v-if="itemSubWindowVisibility && isInventoryItem(activeItem)">
       <span class="close" @click="itemSubWindowVisibility = false">
-        <img :src="`./src/assets/images/cross.svg`" alt="cross-icon">
+        <img src="@/assets/images/cross.svg" alt="cross-icon">
       </span>
 
       <picture><img :src="`./src/assets/images/${activeItem.srcImg}`" alt="item-img"></picture>

@@ -7,7 +7,7 @@ const definedProps = defineProps<{
 }>()
 
 const getItemSrc = computed<string>(() => {
-  return `./src/assets/images/${definedProps.item.srcImg}`
+  return new URL(`../assets/images/${definedProps.item.srcImg}`, import.meta.url).href;
 })
 </script>
 
