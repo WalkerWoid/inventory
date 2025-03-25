@@ -17,6 +17,7 @@ export default defineConfig({
       }
     }
   },
+  base: '/inventory/',
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
