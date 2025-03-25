@@ -31,7 +31,9 @@ const deleteItem = () => {
 }
 
 const getItemSrc = computed<string>(() => {
-  return new URL(`../assets/images/${definedProps.activeItem.srcImg}`, import.meta.url).href;
+  if (isInventoryItem(definedProps.activeItem))
+    return new URL(`../assets/images/${definedProps.activeItem.srcImg}`, import.meta.url).href;
+  else return ''
 })
 </script>
 
