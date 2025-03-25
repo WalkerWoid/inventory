@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {useInventoryStore} from "@/stores/useInventoryStore.ts";
 import {storeToRefs} from "pinia";
-import {ref, toRaw} from "vue";
+import {computed, ref, toRaw} from "vue";
 
 import {isInventoryItem} from "@/stores/useInventoryStore.ts";
 import type {InventoryItemInterface} from "@/stores/useInventoryStore.ts";
@@ -29,6 +29,10 @@ const deleteItem = () => {
     return
   }
 }
+
+const getItemSrc = computed<string>(() => {
+  return new URL(`../assets/images/${definedProps.activeItem.srcImg}`, import.meta.url).href;
+})
 </script>
 
 <template>
@@ -38,7 +42,7 @@ const deleteItem = () => {
         <img src="@/assets/images/cross.svg" alt="cross-icon">
       </span>
 
-      <picture><img :src="`./src/assets/images/${activeItem.srcImg}`" alt="item-img"></picture>
+      <picture><img :src="getItemSrc" alt="item-img"></picture>
 
       <div class="text pulse">
         <h3>Lorem ipsum dolor sit amet, consectetur adipisicing.</h3>
